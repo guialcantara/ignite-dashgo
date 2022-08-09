@@ -1,20 +1,21 @@
-import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Flex, Heading, Icon, IconButton, Table, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue } from "@chakra-ui/react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
 export default function UserList() {
+  const isWideVersion = useBreakpointValue({ base: false, lg: true })
   return (
     <Box>
       <Header />
-      <Flex w='100%' my="6" maxW={1480} mx="auto" px="6">
+      <Flex w='100%' justify="center" my="6" maxW={1480}  px={["4", "4", "6"]}>
         <Sidebar />
 
-        <Box flex="1" borderRadius={8} bg="gray.800" p="8">
+        <Box flex="1" borderRadius={8} bg="gray.800" p={["6", "6", "8"]}>
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal" >Usuários</Heading>
-            <Button as="a" size="sm" fontSize="sm" colorScheme="pink" leftIcon={<Icon as={RiAddLine} fontSize="20"/>}>
+            <Button as="a" size="sm" fontSize="sm" colorScheme="pink" leftIcon={<Icon as={RiAddLine} fontSize="20" />}>
               Criar novo
             </Button>
           </Flex>
@@ -22,17 +23,17 @@ export default function UserList() {
           <Table colorScheme="whiteAlpha">
             <Thead>
               <Tr>
-                <Th px="6" color="gray.300" width="8">
+                <Th px={["4", "4", "6"]} color="gray.300" width="8">
                   <Checkbox colorScheme="pink" />
                 </Th>
                 <Th>Usuário</Th>
-                <Th>Data de cadastro</Th>
-                <Th width="8"/>
+                {isWideVersion && <Th>Data de cadastro</Th>}
+                <Th width="8" />
               </Tr>
             </Thead>
             <Tbody>
               <Tr>
-                <Td px="6">
+                <Td px={["4", "4", "6"]}>
                   <Checkbox colorScheme="pink" />
                 </Td>
                 <Td>
@@ -41,16 +42,29 @@ export default function UserList() {
                     <Text fontSize="sm" color="gray.300">gui.absilva@outlook.com</Text>
                   </Box>
                 </Td>
-                <Td>04 de abril, 2022</Td>
+                {isWideVersion && <Td>04 de abril, 2022</Td>}
                 <Td>
-                  <Button as="a" size="sm" fontSize="sm" colorScheme="purple" leftIcon={<Icon as={RiPencilLine} fontSize="16" />}>
-                    Editar
-                  </Button>
+                  {isWideVersion ? (
+                    <Button as="a" size="sm" fontSize="sm" colorScheme="purple" leftIcon={<Icon as={RiPencilLine} fontSize="16" />}>
+                      Editar
+                    </Button>
+                  ) :
+                    (
+                      <IconButton
+                      display="flex"
+                      alignItems="center"
+                      aria-label='Edit user'
+                      icon={<Icon as={RiPencilLine} />}
+                      fontSize="16"
+                      colorScheme="purple"
+                      mr="2"
+                    ></IconButton>
+                    )}
                 </Td>
               </Tr>
             </Tbody>
           </Table>
-          <Pagination/>
+          <Pagination />
         </Box>
       </Flex>
     </Box>
